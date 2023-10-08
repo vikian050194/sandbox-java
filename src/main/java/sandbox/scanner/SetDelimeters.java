@@ -3,7 +3,7 @@ package sandbox.scanner;
 import java.util.*;
 import java.io.*;
 
-public class AvgFile {
+public class SetDelimeters {
 
     public static void main(String[] args) throws IOException {
         int count = 0;
@@ -11,12 +11,16 @@ public class AvgFile {
 
         // Write output to file
         try (var fout = new FileWriter("test.txt")) {
-            fout.write("2 3.4 5.6 7.4 9.1 10.5 done");
+            fout.write("2, 3.4,    5.6,  7.4, 9.1, 10.5, done");
         }
 
         var fin = new FileReader("test.txt");
 
         try (var src = new Scanner(fin)) {
+            // Set delimiters to space and comma
+            src.useDelimiter(", *");
+
+            // Read and sum numbers
             while (src.hasNext()) {
                 if (src.hasNextDouble()) {
                     sum += src.nextDouble();
