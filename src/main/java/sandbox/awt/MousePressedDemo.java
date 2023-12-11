@@ -3,14 +3,14 @@ package sandbox.awt;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AdapterDemo extends Frame {
+public class MousePressedDemo extends Frame {
 
     String msg = "";
 
-    public AdapterDemo() {
+    public MousePressedDemo() {
         addMouseListener(new MyMouseAdapter(this));
         addMouseMotionListener(new MyMouseAdapter(this));
-        addWindowListener(new MyWindowAdapterAD());
+        addWindowListener(new MyWindowAdapterMPD());
     }
 
     @Override
@@ -19,36 +19,30 @@ public class AdapterDemo extends Frame {
     }
 
     public static void main(String[] args) {
-        var appwin = new AdapterDemo();
+        var appwin = new MousePressedDemo();
 
         appwin.setSize(new Dimension(300, 300));
-        appwin.setTitle("AdapterDemo");
+        appwin.setTitle("MousePressedDemo");
         appwin.setVisible(true);
     }
 
     class MyMouseAdapter extends MouseAdapter {
 
-        AdapterDemo adapterDemo;
+        MousePressedDemo adapterDemo;
 
-        public MyMouseAdapter(AdapterDemo adapterDemo) {
+        public MyMouseAdapter(MousePressedDemo adapterDemo) {
             this.adapterDemo = adapterDemo;
         }
 
         @Override
-        public void mouseClicked(MouseEvent me) {
-            adapterDemo.msg = "Mouse clicked";
-            repaint();
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent me) {
-            adapterDemo.msg = "Mouse dragged";
+        public void mousePressed(MouseEvent me) {
+            adapterDemo.msg = "Button pressed";
             repaint();
         }
     }
 }
 
-class MyWindowAdapterAD extends WindowAdapter {
+class MyWindowAdapterMPD extends WindowAdapter {
 
     @Override
     public void windowClosing(WindowEvent we) {

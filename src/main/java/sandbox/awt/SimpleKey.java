@@ -10,7 +10,7 @@ public class SimpleKey extends Frame implements KeyListener {
 
     public SimpleKey() {
         addKeyListener(this);
-        addWindowListener(new MyWindowAdapter());
+        addWindowListener(new MyWindowAdapterSK());
     }
 
     @Override
@@ -44,12 +44,12 @@ public class SimpleKey extends Frame implements KeyListener {
         appwin.setTitle("SimpleKey");
         appwin.setVisible(true);
     }
+}
 
-    class MyWindowAdapter extends WindowAdapter {
+class MyWindowAdapterSK extends WindowAdapter {
 
         @Override
         public void windowClosing(WindowEvent we) {
             System.exit(0);
         }
     }
-}

@@ -12,7 +12,7 @@ public class MouseEventDemo extends Frame implements MouseListener, MouseMotionL
     public MouseEventDemo() {
         addMouseListener(this);
         addMouseMotionListener(this);
-        addWindowListener(new MyWindowAdapter());
+        addWindowListener(new MyWindowAdapterMED());
     }
 
     @Override
@@ -79,12 +79,12 @@ public class MouseEventDemo extends Frame implements MouseListener, MouseMotionL
         appwin.setTitle("MouseEventDemo");
         appwin.setVisible(true);
     }
+}
 
-    class MyWindowAdapter extends WindowAdapter {
+class MyWindowAdapterMED extends WindowAdapter {
 
-        @Override
-        public void windowClosing(WindowEvent we) {
-            System.exit(0);
-        }
+    @Override
+    public void windowClosing(WindowEvent we) {
+        System.exit(0);
     }
 }
