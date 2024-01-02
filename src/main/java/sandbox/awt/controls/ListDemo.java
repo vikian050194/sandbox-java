@@ -3,16 +3,16 @@ package sandbox.awt.controls;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ChoiceDemo extends Frame implements ItemListener {
+public class ListDemo extends Frame implements ActionListener {
 
-    Choice os;
-    Choice browser;
+    List os;
+    List browser;
 
-    public ChoiceDemo() {
+    public ListDemo() {
         setLayout(new FlowLayout());
 
-        os = new Choice();
-        browser = new Choice();
+        os = new List(4, true);
+        browser = new List(4);
 
         os.add("Windows");
         os.add("Android");
@@ -23,11 +23,14 @@ public class ChoiceDemo extends Frame implements ItemListener {
         browser.add("Firefox");
         browser.add("Chrome");
 
+        os.select(0);
+        browser.select(1);
+
         add(os);
         add(browser);
 
-        os.addItemListener(this);
-        browser.addItemListener(this);
+        os.addActionListener(this);
+        browser.addActionListener(this);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -38,21 +41,21 @@ public class ChoiceDemo extends Frame implements ItemListener {
     }
 
     public static void main(String[] args) {
-        var appwin = new ChoiceDemo();
+        var appwin = new ListDemo();
 
         appwin.setSize(new Dimension(300, 300));
-        appwin.setTitle("ChoiceDemo");
+        appwin.setTitle("ListDemo");
         appwin.setVisible(true);
     }
 
     @Override
     public void paint(Graphics g) {
-        g.drawString(String.format("Current OS: %s", os.getSelectedItem()), 20, 120);
-        g.drawString(String.format("Current browser: %s", browser.getSelectedItem()), 20, 140);
+        g.drawString(String.format("Current OS: %s", os.getSelectedItem()), 20, 150);
+        g.drawString(String.format("Current browser: %s", browser.getSelectedItem()), 20, 170);
     }
 
     @Override
-    public void itemStateChanged(ItemEvent ie) {
+    public void actionPerformed(ActionEvent ae) {
         repaint();
     }
 }
