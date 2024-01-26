@@ -13,7 +13,7 @@ public class SimpleImageLoad extends Frame {
     Image img;
 
     public SimpleImageLoad() {
-        var dialog = new FileDialog(this, "Select directory", FileDialog.LOAD);
+        var dialog = new FileDialog(this, "Select image", FileDialog.LOAD);
         dialog.setVisible(true);
         var imageFile = new File(dialog.getDirectory(), dialog.getFile());
         try {
