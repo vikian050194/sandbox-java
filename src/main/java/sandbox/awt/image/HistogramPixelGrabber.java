@@ -75,16 +75,13 @@ public class HistogramPixelGrabber extends Frame {
 
         g.drawImage(img, insets.left, insets.top, null);
 
-        int x = (iw - 256) / 2;
-        int lastY = ih - ih * histogram[0] / histogramMax;
+        int middleX = (iw - 256) / 2;
 
         for (int i = 0; i < 256; i++) {
             int y = ih - ih * histogram[i] / histogramMax;
             g.setColor(new Color(i, i, i));
-            g.fillRect(x + insets.left, y + insets.top, 1, ih - y);
-            g.setColor(Color.red);
-            g.drawLine((x - 1) + insets.left, lastY + insets.top, x + insets.left, y + insets.top);
-            lastY = y;
+            var currentX = (middleX - 1) + insets.left + i;
+            g.drawLine(currentX, ih + insets.top, currentX, y + insets.top);
         }
     }
 
