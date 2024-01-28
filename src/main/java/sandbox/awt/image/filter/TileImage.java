@@ -1,4 +1,4 @@
-package sandbox.awt.image;
+package sandbox.awt.image.filter;
 
 import java.awt.*;
 import java.awt.event.*;
