@@ -14,7 +14,7 @@ public class SemaphoreDemo {
     }
 }
 
-class Shared {
+class SemaphoreDemoShared {
 
     static int count = 0;
 }
@@ -39,8 +39,8 @@ class IncrementThread implements Runnable {
             System.out.println(name + " gets a permit");
 
             for (int i = 0; i < 5; i++) {
-                Shared.count++;
-                System.out.println(name + ": " + Shared.count);
+                SemaphoreDemoShared.count++;
+                System.out.println(name + ": " + SemaphoreDemoShared.count);
 
                 Thread.sleep(10);
             }
@@ -74,8 +74,8 @@ class DecrementThread implements Runnable {
             System.out.println(name + " gets a permit");
 
             for (int i = 0; i < 5; i++) {
-                Shared.count--;
-                System.out.println(name + ": " + Shared.count);
+                SemaphoreDemoShared.count--;
+                System.out.println(name + ": " + SemaphoreDemoShared.count);
 
                 Thread.sleep(10);
             }
