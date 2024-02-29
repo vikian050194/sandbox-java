@@ -57,8 +57,8 @@ class SqrtTransform extends RecursiveAction {
             }
         } else {
             int middle = (start + end) / 2;
-            invokeAll(new SqrtTransform(data, start, middle));
-            invokeAll(new SqrtTransform(data, middle, end));
+            invokeAll(new SqrtTransform(data, start, middle),
+                    new SqrtTransform(data, middle, end));
         }
     }
 
