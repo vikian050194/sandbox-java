@@ -24,7 +24,12 @@ class ForkJoinExperiment {
 
         beginT = System.nanoTime();
 
-        pool.invoke(task);
+//        pool.invoke(task);
+        pool.execute(task);
+
+        while (!task.isDone()) {
+            System.out.println(pool);
+        }
 
         endT = System.nanoTime();
 
