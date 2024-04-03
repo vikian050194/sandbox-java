@@ -1,5 +1,6 @@
 package sandbox.swing;
 
+import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -12,6 +13,8 @@ public class LabelImageIconSwingDemo {
         String title = "A Label With ImageIcon Demo Application";
 
         JFrame frame = new JFrame(title);
+        
+        frame.setLayout(new FlowLayout());
 
         frame.setSize(300, 100);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
