@@ -14,7 +14,7 @@ public class RadioButtonSwingDemo implements ActionListener {
     JLabel label;
 
     public RadioButtonSwingDemo() {
-        String title = "RadioBUtton Demo Application";
+        String title = "RadioButton Demo Application";
 
         JFrame frame = new JFrame(title);
         frame.setLayout(new FlowLayout());
