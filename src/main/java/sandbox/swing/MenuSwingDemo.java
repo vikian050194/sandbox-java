@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
@@ -49,13 +52,18 @@ public class MenuSwingDemo implements ActionListener {
 
         var options = new JMenu("Options");
         var colors = new JMenu("Colors");
-        colors.add(new JMenuItem("Red")).addActionListener(this);
-        colors.add(new JMenuItem("Green")).addActionListener(this);
-        colors.add(new JMenuItem("Blue")).addActionListener(this);
+        colors.add(new JCheckBoxMenuItem("Red")).addActionListener(this);
+        colors.add(new JCheckBoxMenuItem("Green")).addActionListener(this);
+        colors.add(new JCheckBoxMenuItem("Blue")).addActionListener(this);
         options.add(colors);
         var priority = new JMenu("Priority");
-        priority.add(new JMenuItem("High")).addActionListener(this);
-        priority.add(new JMenuItem("Low")).addActionListener(this);
+        var highPriority = priority.add(new JRadioButtonMenuItem("High"));
+        highPriority.addActionListener(this);
+        var lowPriority = priority.add(new JRadioButtonMenuItem("Low"));
+        lowPriority.addActionListener(this);
+        var bg = new ButtonGroup();
+        bg.add(highPriority);
+        bg.add(lowPriority);
         options.add(priority);
 
         options.addSeparator();
@@ -63,7 +71,9 @@ public class MenuSwingDemo implements ActionListener {
         bar.add(options);
 
         var help = new JMenu("Help");
-        help.add(new JMenuItem("About")).addActionListener(this);
+        var about = help.add(new JMenuItem("About"));
+        about.addActionListener(this);
+        about.setToolTipText("Info about the Menu Demo Application program");
         bar.add(help);
 
         frame.setJMenuBar(bar);
