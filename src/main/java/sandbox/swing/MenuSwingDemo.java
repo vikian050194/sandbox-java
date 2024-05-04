@@ -1,6 +1,6 @@
 package sandbox.swing;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
@@ -29,12 +31,12 @@ public class MenuSwingDemo implements ActionListener {
 
         JFrame frame = new JFrame(title);
 
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new BorderLayout());
         frame.setSize(220, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         label = new JLabel();
-        frame.add(label);
+        frame.add(label, BorderLayout.CENTER);
 
         var bar = new JMenuBar();
 
@@ -87,6 +89,30 @@ public class MenuSwingDemo implements ActionListener {
         popupMenu.add(new JMenuItem("Cut")).addActionListener(this);
         popupMenu.add(new JMenuItem("Copy")).addActionListener(this);
         popupMenu.add(new JMenuItem("Paste")).addActionListener(this);
+
+        var toolbar = new JToolBar("Debug");
+
+        var setBreakpoint = new JButton("↓");
+        setBreakpoint.setActionCommand("Set Breakpoint");
+        setBreakpoint.setToolTipText("Set Breakpoint");
+
+        var clearBreakpoint = new JButton("↑");
+        clearBreakpoint.setActionCommand("Clear Breakpoint");
+        clearBreakpoint.setToolTipText("Clear Breakpoint");
+
+        var resumeBreakpoint = new JButton("↬");
+        resumeBreakpoint.setActionCommand("Resume");
+        resumeBreakpoint.setToolTipText("Resume");
+
+        toolbar.add(setBreakpoint);
+        toolbar.add(clearBreakpoint);
+        toolbar.add(resumeBreakpoint);
+
+        setBreakpoint.addActionListener(this);
+        clearBreakpoint.addActionListener(this);
+        resumeBreakpoint.addActionListener(this);
+
+        frame.add(toolbar, BorderLayout.NORTH);
 
         frame.addMouseListener(new MouseAdapter() {
             @Override
