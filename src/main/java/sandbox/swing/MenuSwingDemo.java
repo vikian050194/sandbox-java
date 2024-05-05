@@ -7,6 +7,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -23,8 +24,37 @@ import javax.swing.SwingUtilities;
 
 public class MenuSwingDemo implements ActionListener {
 
+    class DebugAction extends AbstractAction {
+
+        public DebugAction(String name, String text, int mnem, int accel, String tTip) {
+            super(name);
+            putValue(NAME, text);
+            putValue(ACCELERATOR_KEY, KeyStroke.getAWTKeyStroke(accel, InputEvent.CTRL_DOWN_MASK));
+            putValue(MNEMONIC_KEY, mnem);
+            putValue(SHORT_DESCRIPTION, tTip);
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            String command = ae.getActionCommand();
+
+            label.setText(String.format("%s is selected", command));
+
+            if (command.equals("↓")) {
+                clearAct.setEnabled(true);
+                setAct.setEnabled(false);
+            } else if (command.equals("↑")) {
+                clearAct.setEnabled(false);
+                setAct.setEnabled(true);
+            }
+        }
+    }
+
     JLabel label;
     JPopupMenu popupMenu;
+
+    DebugAction setAct;
+    DebugAction clearAct;
+    DebugAction resumeAct;
 
     public MenuSwingDemo() {
         String title = "Menu Demo Application";
@@ -34,6 +64,10 @@ public class MenuSwingDemo implements ActionListener {
         frame.setLayout(new BorderLayout());
         frame.setSize(220, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setAct = new DebugAction("Set Breakpoint", "↓", KeyEvent.VK_S, KeyEvent.VK_B, "Set a break point");
+        clearAct = new DebugAction("Clear Breakpoint", "↑", KeyEvent.VK_C, KeyEvent.VK_L, "Clear a break point");
+        resumeAct = new DebugAction("Resume", "↬", KeyEvent.VK_R, KeyEvent.VK_R, "Resume execution after breakpoint");
 
         label = new JLabel();
         frame.add(label, BorderLayout.CENTER);
@@ -72,6 +106,12 @@ public class MenuSwingDemo implements ActionListener {
         bg.add(lowPriority);
         options.add(priority);
 
+        var debug = new JMenu("Debug");
+        debug.add(new JMenuItem(setAct)).addActionListener(this);
+        debug.add(new JMenuItem(clearAct)).addActionListener(this);
+        debug.add(new JMenuItem(resumeAct)).addActionListener(this);
+        options.add(debug);
+
         options.addSeparator();
         options.add(new JMenuItem("Reset")).addActionListener(this);
         bar.add(options);
@@ -92,17 +132,9 @@ public class MenuSwingDemo implements ActionListener {
 
         var toolbar = new JToolBar("Debug");
 
-        var setBreakpoint = new JButton("↓");
-        setBreakpoint.setActionCommand("Set Breakpoint");
-        setBreakpoint.setToolTipText("Set Breakpoint");
-
-        var clearBreakpoint = new JButton("↑");
-        clearBreakpoint.setActionCommand("Clear Breakpoint");
-        clearBreakpoint.setToolTipText("Clear Breakpoint");
-
-        var resumeBreakpoint = new JButton("↬");
-        resumeBreakpoint.setActionCommand("Resume");
-        resumeBreakpoint.setToolTipText("Resume");
+        var setBreakpoint = new JButton(setAct);
+        var clearBreakpoint = new JButton(clearAct);
+        var resumeBreakpoint = new JButton(resumeAct);
 
         toolbar.add(setBreakpoint);
         toolbar.add(clearBreakpoint);
