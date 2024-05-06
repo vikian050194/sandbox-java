@@ -50,6 +50,8 @@ public class MenuSwingDemo implements ActionListener {
     }
 
     JLabel label;
+    JMenuBar bar;
+    JToolBar toolbar;
     JPopupMenu popupMenu;
 
     DebugAction setAct;
@@ -62,89 +64,30 @@ public class MenuSwingDemo implements ActionListener {
         JFrame frame = new JFrame(title);
 
         frame.setLayout(new BorderLayout());
-        frame.setSize(220, 200);
+        frame.setSize(360, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setAct = new DebugAction("Set Breakpoint", "↓", KeyEvent.VK_S, KeyEvent.VK_B, "Set a break point");
-        clearAct = new DebugAction("Clear Breakpoint", "↑", KeyEvent.VK_C, KeyEvent.VK_L, "Clear a break point");
-        resumeAct = new DebugAction("Resume", "↬", KeyEvent.VK_R, KeyEvent.VK_R, "Resume execution after breakpoint");
-
         label = new JLabel();
+
+        bar = new JMenuBar();
+
+        makeFileMenu();
+
+        makeActions();
+
+        makeToolBar();
+
+        makeOptionsMenu();
+
+        makeHelpMenu();
+
+        makeEditPUMenu();
+
         frame.add(label, BorderLayout.CENTER);
 
-        var bar = new JMenuBar();
-
-        var file = new JMenu("File");
-        file.setMnemonic(KeyEvent.VK_F);
-        var open = file.add(new JMenuItem("Open", KeyEvent.VK_O));
-        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
-        open.addActionListener(this);
-        var close = file.add(new JMenuItem("Close", KeyEvent.VK_C));
-        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
-        close.addActionListener(this);
-        var save = file.add(new JMenuItem("Save", KeyEvent.VK_S));
-        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
-        save.addActionListener(this);
-        var exit = file.add(new JMenuItem("Exit", KeyEvent.VK_E));
-        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
-        exit.addActionListener(this);
-        bar.add(file);
-
-        var options = new JMenu("Options");
-        var colors = new JMenu("Colors");
-        colors.add(new JCheckBoxMenuItem("Red")).addActionListener(this);
-        colors.add(new JCheckBoxMenuItem("Green")).addActionListener(this);
-        colors.add(new JCheckBoxMenuItem("Blue")).addActionListener(this);
-        options.add(colors);
-        var priority = new JMenu("Priority");
-        var highPriority = priority.add(new JRadioButtonMenuItem("High"));
-        highPriority.addActionListener(this);
-        var lowPriority = priority.add(new JRadioButtonMenuItem("Low"));
-        lowPriority.addActionListener(this);
-        var bg = new ButtonGroup();
-        bg.add(highPriority);
-        bg.add(lowPriority);
-        options.add(priority);
-
-        var debug = new JMenu("Debug");
-        debug.add(new JMenuItem(setAct)).addActionListener(this);
-        debug.add(new JMenuItem(clearAct)).addActionListener(this);
-        debug.add(new JMenuItem(resumeAct)).addActionListener(this);
-        options.add(debug);
-
-        options.addSeparator();
-        options.add(new JMenuItem("Reset")).addActionListener(this);
-        bar.add(options);
-
-        var help = new JMenu("Help");
-        var about = help.add(new JMenuItem("About"));
-        about.addActionListener(this);
-        about.setToolTipText("Info about the Menu Demo Application program");
-        bar.add(help);
+        frame.add(toolbar, BorderLayout.NORTH);
 
         frame.setJMenuBar(bar);
-
-        popupMenu = new JPopupMenu();
-
-        popupMenu.add(new JMenuItem("Cut")).addActionListener(this);
-        popupMenu.add(new JMenuItem("Copy")).addActionListener(this);
-        popupMenu.add(new JMenuItem("Paste")).addActionListener(this);
-
-        var toolbar = new JToolBar("Debug");
-
-        var setBreakpoint = new JButton(setAct);
-        var clearBreakpoint = new JButton(clearAct);
-        var resumeBreakpoint = new JButton(resumeAct);
-
-        toolbar.add(setBreakpoint);
-        toolbar.add(clearBreakpoint);
-        toolbar.add(resumeBreakpoint);
-
-        setBreakpoint.addActionListener(this);
-        clearBreakpoint.addActionListener(this);
-        resumeBreakpoint.addActionListener(this);
-
-        frame.add(toolbar, BorderLayout.NORTH);
 
         frame.addMouseListener(new MouseAdapter() {
             @Override
@@ -178,5 +121,95 @@ public class MenuSwingDemo implements ActionListener {
         }
 
         label.setText(ae.getActionCommand());
+    }
+
+    void makeFileMenu() {
+        var file = new JMenu("File");
+
+        file.setMnemonic(KeyEvent.VK_F);
+        var open = file.add(new JMenuItem("Open", KeyEvent.VK_O));
+        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
+        open.addActionListener(this);
+        var close = file.add(new JMenuItem("Close", KeyEvent.VK_C));
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
+        close.addActionListener(this);
+        var save = file.add(new JMenuItem("Save", KeyEvent.VK_S));
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+        save.addActionListener(this);
+        var exit = file.add(new JMenuItem("Exit", KeyEvent.VK_E));
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+        exit.addActionListener(this);
+
+        bar.add(file);
+    }
+
+    void makeOptionsMenu() {
+        var options = new JMenu("Options");
+
+        var colors = new JMenu("Colors");
+        colors.add(new JCheckBoxMenuItem("Red")).addActionListener(this);
+        colors.add(new JCheckBoxMenuItem("Green")).addActionListener(this);
+        colors.add(new JCheckBoxMenuItem("Blue")).addActionListener(this);
+        options.add(colors);
+        var priority = new JMenu("Priority");
+        var highPriority = priority.add(new JRadioButtonMenuItem("High"));
+        highPriority.addActionListener(this);
+        var lowPriority = priority.add(new JRadioButtonMenuItem("Low"));
+        lowPriority.addActionListener(this);
+        var bg = new ButtonGroup();
+        bg.add(highPriority);
+        bg.add(lowPriority);
+        options.add(priority);
+
+        var debug = new JMenu("Debug");
+        debug.add(new JMenuItem(setAct)).addActionListener(this);
+        debug.add(new JMenuItem(clearAct)).addActionListener(this);
+        debug.add(new JMenuItem(resumeAct)).addActionListener(this);
+        options.add(debug);
+
+        options.addSeparator();
+        options.add(new JMenuItem("Reset")).addActionListener(this);
+
+        bar.add(options);
+    }
+
+    void makeHelpMenu() {
+        var help = new JMenu("Help");
+
+        var about = help.add(new JMenuItem("About"));
+        about.addActionListener(this);
+        about.setToolTipText("Info about the Menu Demo Application program");
+
+        bar.add(help);
+    }
+
+    void makeActions() {
+        setAct = new DebugAction("Set Breakpoint", "↓", KeyEvent.VK_S, KeyEvent.VK_B, "Set a break point");
+        clearAct = new DebugAction("Clear Breakpoint", "↑", KeyEvent.VK_C, KeyEvent.VK_L, "Clear a break point");
+        resumeAct = new DebugAction("Resume", "↬", KeyEvent.VK_R, KeyEvent.VK_R, "Resume execution after breakpoint");
+    }
+
+    void makeToolBar() {
+        toolbar = new JToolBar("Debug");
+
+        var setBreakpoint = new JButton(setAct);
+        var clearBreakpoint = new JButton(clearAct);
+        var resumeBreakpoint = new JButton(resumeAct);
+
+        toolbar.add(setBreakpoint);
+        toolbar.add(clearBreakpoint);
+        toolbar.add(resumeBreakpoint);
+
+        setBreakpoint.addActionListener(this);
+        clearBreakpoint.addActionListener(this);
+        resumeBreakpoint.addActionListener(this);
+    }
+
+    void makeEditPUMenu() {
+        popupMenu = new JPopupMenu();
+
+        popupMenu.add(new JMenuItem("Cut")).addActionListener(this);
+        popupMenu.add(new JMenuItem("Copy")).addActionListener(this);
+        popupMenu.add(new JMenuItem("Paste")).addActionListener(this);
     }
 }
